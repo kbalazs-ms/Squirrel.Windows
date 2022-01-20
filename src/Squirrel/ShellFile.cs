@@ -924,29 +924,10 @@ namespace Squirrel.Shell
         /// </summary>
         public void SetToastActivatorCLSID(string clsid)
         {
-            var guid = Guid.Parse(clsid);
-            SetToastActivatorCLSID(guid);
-        }
-
-        /// <summary>
-        /// Sets the ToastActivatorCLSID
-        /// </summary>
-        public void SetToastActivatorCLSID(Guid clsid)
-        {
             var propStore = (IPropertyStore)linkW;
-
             var pkey = PROPERTYKEY.PKEY_AppUserModel_ToastActivatorCLSID;
-
-            var varGuid = PropVariant.FromGuid(clsid);
-            try {
-                int errCode = propStore.SetValue(ref pkey, ref varGuid);
-                Marshal.ThrowExceptionForHR(errCode);
-
-                errCode = propStore.Commit();
-                Marshal.ThrowExceptionForHR(errCode);
-            } finally {
-                varGuid.Clear();
-            }
+            var str = PropVariant.FromString(clsid);
+            propStore.SetValue(ref pkey, ref str);
         }
 
         /// <summary>
